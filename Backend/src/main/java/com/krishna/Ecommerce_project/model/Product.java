@@ -2,6 +2,8 @@ package com.krishna.Ecommerce_project.model;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -13,16 +15,18 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
-    private String desc;
+    private String description;
     private String brand;
     private BigDecimal price;
     private String category;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd-MM-yyyy")
     private Date releaseDate;
-    private int quantity;
-    private boolean available;
+    private int stockQuantity;
+    private boolean productAvailable;
     private String imageName;
     private String imageType;
+    @Getter
+    @Setter
     @Lob
     private byte[] imageData;
 
@@ -43,11 +47,11 @@ public class Product {
     }
 
     public String getDesc() {
-        return desc;
+        return description;
     }
 
     public void setDesc(String desc) {
-        this.desc = desc;
+        this.description = desc;
     }
 
     public String getBrand() {
@@ -83,19 +87,19 @@ public class Product {
     }
 
     public int getQuantity() {
-        return quantity;
+        return stockQuantity;
     }
 
     public void setQuantity(int quantity) {
-        this.quantity = quantity;
+        this.stockQuantity = quantity;
     }
 
     public boolean isAvailable() {
-        return available;
+        return productAvailable;
     }
 
     public void setAvailable(boolean available) {
-        this.available = available;
+        this.productAvailable = available;
     }
 
     public String getImageName() {
@@ -112,13 +116,5 @@ public class Product {
 
     public void setImageType(String imageType) {
         this.imageType = imageType;
-    }
-
-    public byte[] getImageData() {
-        return imageData;
-    }
-
-    public void setImageData(byte[] imageData) {
-        this.imageData = imageData;
     }
 }

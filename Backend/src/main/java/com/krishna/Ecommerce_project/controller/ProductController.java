@@ -3,6 +3,7 @@ package com.krishna.Ecommerce_project.controller;
 import com.krishna.Ecommerce_project.model.Product;
 import com.krishna.Ecommerce_project.service.ProductService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,7 +36,7 @@ public class ProductController {
        return ResponseEntity.ok(products);
     }
 
-    @GetMapping("/products/{id}")
+    @GetMapping("/product/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable int id){
        Optional<Product> product = productService.getProductById(id);
         return product.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
@@ -50,5 +51,14 @@ public class ProductController {
         catch (Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
+    }
+
+    @GetMapping("/product/{productId}/image")
+    public ResponseEntity<byte[]> getImageByProduct(@PathVariable int productId) {
+        return productService.getProductById(productId)
+                .map(product -> ResponseEntity.ok()
+                        .contentType(MediaType.valueOf(product.getImageType()))
+                        .body(product.getImageData()))
+                .orElse(ResponseEntity.notFound().build());
     }
 }
